@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rishabh Raj | AI Portfolio</title>
+
+  <!-- Favicon links -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+  <link rel="manifest" href="./site.webmanifest">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text {
+      @apply bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // === Centralized Data ===
+    const siteData = {
+      hero: {
+        name: "Rishabh Raj",
+        tagline: "AI Postgraduate | Machine Learning & Data Analysis | AQI Prediction Research",
+        bio: "I am an AI postgraduate skilled in Python, machine learning, and data analysis with hands-on experience in LSTM and XGBoost for AQI prediction during my internship at CSIR-CRRI. I am proficient in React.js, MongoDB, and FastAPI, with a year of teaching experience in computer science. I'm committed to leveraging AI to address environmental challenges.",
+        photo: "./images/me.jpg", // Update this line
+        links: {
+          linkedin: "https://www.linkedin.com/in/rishabh-raj-767b13212/",
+          github: "https://github.com/SinGhRishaBBh",
+          email: "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox"
+        }
+      },
+      experience: [
+        {
+          role: "Research Intern",
+          company: "CSIR CRRI",
+          location: "New Delhi",
+          period: "Jan 2025 – Jun 2025",
+          details: [
+            "Conducted research on PM2.5 and PM10 impact on urban air quality using AI.",
+            "Built predictive models with LSTM and XGBoost for AQI forecasting.",
+            "Integrated IQAir and OpenWeatherMap APIs.",
+            "Deployed models with FastAPI backend + React.js frontend.",
+            "Contributed to research paper: \"Air Pollution, PM2.5 and AI Techniques to Measure It\"."
+          ]
+        },
+        {
+          role: "Computer Science Teacher",
+          company: "Vinayak Study Centre",
+          location: "Patna, Bihar",
+          period: "Jul 2022 – Jul 2023",
+          details: [
+            "Taught classes 6–12 computer science (Python, MS Office, Scratch).",
+            "Guided students on projects and coding basics."
+          ]
+        }
+      ],
+      education: [
+        { title: "M.Sc. Artificial Intelligence", place: "Central University of South Bihar", year: "2023–2025" },
+        { title: "BCA", place: "Arcade Business College", year: "2020–2023" }
+      ],
+      projects: [
+        { title: "AQI Prediction Dashboard", desc: "React.js + FastAPI + MongoDB with real-time visualization.", tech: ["React", "FastAPI", "MongoDB", "TensorFlow"] },
+        { title: "Environmental Data API Integration", desc: "Live AQI + weather data from IQAir & OpenWeatherMap.", tech: ["Python", "FastAPI", "Pandas", "NumPy"] },
+        { title: "Student Coding Tools", desc: "Python & Scratch-based learning aids.", tech: ["Python", "Scratch", "Pygame"] }
+      ],
+      skills: {
+        "AI & ML": ["Python", "TensorFlow", "Keras", "LSTM", "XGBoost", "Scikit-learn"],
+        "Data": ["Pandas", "NumPy", "Matplotlib", "Seaborn"],
+        "Web": ["React.js", "MongoDB", "FastAPI", "Firebase"],
+        "Others": ["SQL", "Jupyter", "MS Office"]
+      },
+      achievements: [
+        { title: "Research Publication", desc: "Contributed to environmental AI research publication." },
+        { title: "Real-time AQI Deployment", desc: "Developed deployed AQI models using real-time datasets." }
+      ]
+    };
+
+    // === Components ===
+    function App() {
+      const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
+
+      useEffect(() => {
+        AOS.init();
+        feather.replace();
+        document.documentElement.classList.toggle("dark", darkMode);
+      }, [darkMode]);
+
+      const toggleDarkMode = () => {
+        const newMode = !darkMode;
+        setDarkMode(newMode);
+        localStorage.setItem("theme", newMode ? "dark" : "light");
+      };
+
+      return (
+        <>
+          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode}/>
+          <Hero data={siteData.hero}/>
+          <Section title="About"><About data={siteData.hero}/></Section>
+          <Section title="Experience"><Experience data={siteData.experience}/></Section>
+          <Section title="Education"><Education data={siteData.education}/></Section>
+          <Section title="Projects"><Projects data={siteData.projects}/></Section>
+          <Section title="Skills"><Skills data={siteData.skills}/></Section>
+          <Section title="Achievements"><Achievements data={siteData.achievements}/></Section>
+          <Section title="Contact"><Contact /></Section>
+          <Footer/>
+        </>
+      );
+    }
+
+    const Navbar = ({darkMode, toggleDarkMode}) => (
+      <nav className="fixed w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm">
+        <div className="max-w-6xl mx-auto flex justify-between items-center h-16 px-4">
+          <span className="text-xl font-bold gradient-text">Rishabh Raj</span>
+          <div className="flex items-center space-x-6">
+            {["About","Experience","Projects","Contact"].map((item,i)=>(
+              <a key={i} href={`#${item.toLowerCase()}`} className="hidden md:block text-gray-700 dark:text-gray-300 hover:text-teal-500">{item}</a>
+            ))}
+            <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+              <i data-feather={darkMode ? "sun" : "moon"}></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    );
+
+    const Hero = ({data}) => (
+      <section className="pt-24 pb-16 md:pt-32 max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+        <div data-aos="fade-right">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Hi, I'm <span className="gradient-text">{data.name}</span></h1>
+          <h2 className="text-xl md:text-2xl mb-6 text-gray-600 dark:text-gray-300">{data.tagline}</h2>
+          <p className="mb-6 text-gray-600 dark:text-gray-300">{data.bio}</p>
+          <div className="flex gap-4">
+            <a href="#" className="px-6 py-3 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-lg">Download Resume</a>
+            <a href="#contact" className="px-6 py-3 border border-teal-500 text-teal-500 rounded-lg">Contact Me</a>
+          </div>
+          <div className="flex mt-6 space-x-4">
+            {Object.entries(data.links).map(([key,link],i)=>(
+              <a key={i} href={link} target="_blank" className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                <i data-feather={
+                  key === 'linkedin' ? 'linkedin' : 
+                  key === 'github' ? 'github' : 
+                  key === 'email' ? 'mail' : key
+                }></i>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div data-aos="fade-left" className="flex justify-center">
+          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden">
+            <img 
+              src={data.photo} 
+              alt={data.name} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+    );
+
+    const About = ({data}) => (
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div data-aos="fade-right">
+          <div className="w-64 h-64 mx-auto rounded-full border-4 border-white dark:border-gray-800 overflow-hidden">
+            <img 
+              src={data.photo} 
+              alt={data.name} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+        <div data-aos="fade-left">
+          <p className="text-gray-600 dark:text-gray-300">{data.bio}</p>
+        </div>
+      </div>
+    );
+
+    const Section = ({title, children}) => (
+      <section id={title.toLowerCase()} className="py-16 px-4 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-8 gradient-text">{title}</h2>
+        {children}
+      </section>
+    );
+
+    const Experience = ({data}) => (
+      <div className="relative">
+        {/* Vertical line */}
+        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-teal-500 transform md:translate-x-[-1px]"></div>
+        {data.map((job,i)=>(
+          <div key={i} data-aos="fade-up" className={`relative mb-12 pl-10 md:pl-0 ${i % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:text-right'}`}>
+            <div className="absolute left-0 md:left-1/2 top-0 w-8 h-8 rounded-full bg-teal-500 border-4 border-white dark:border-gray-900 transform md:translate-x-[-50%]"></div>
+            <div className={`bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md ${i % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}>
+              <h3 className="text-xl font-semibold">{job.role} – {job.company}</h3>
+              <p className="text-sm text-teal-500 mb-2">{job.location} | {job.period}</p>
+              <ul className="space-y-1">{job.details.map((d,j)=><li key={j}>• {d}</li>)}</ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+
+    const Education = ({data}) => (
+      <div className="grid md:grid-cols-2 gap-6">
+        {data.map((ed,i)=>(
+          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-teal-500">
+            <h3 className="font-semibold">{ed.title}</h3>
+            <p className="text-teal-500">{ed.place} ({ed.year})</p>
+          </div>
+        ))}
+      </div>
+    );
+
+    const Projects = ({data}) => (
+      <div className="grid md:grid-cols-3 gap-6">
+        {data.map((p,i)=>(
+          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+            <h3 className="font-semibold mb-2">{p.title}</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">{p.desc}</p>
+            <div className="flex flex-wrap gap-2">{p.tech.map((t,j)=><span key={j} className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900 rounded">{t}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    );
+
+    const Skills = ({data}) => (
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {Object.entries(data).map(([cat,skills],i)=>(
+          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 className="font-semibold mb-4">{cat}</h3>
+            <div className="flex flex-wrap gap-2">{skills.map((s,j)=><span key={j} className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 rounded">{s}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    );
+
+    const Achievements = ({data}) => (
+      <div className="grid md:grid-cols-2 gap-6">
+        {data.map((a,i)=>(
+          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 className="font-semibold">{a.title}</h3>
+            <p className="text-gray-600 dark:text-gray-300">{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    );
+
+    const Contact = () => (
+      <div className="grid md:grid-cols-2 gap-8">
+        <div data-aos="fade-right">
+          <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">Feel free to reach out for collaborations or just a friendly hello!</p>
+          <div className="space-y-4">
+            <div className="flex items-center">
+              <i data-feather="mail" className="mr-2 text-teal-500"></i>
+              <a href="mailto:rishabh079singh@gmail.com" className="text-teal-500">rishabh079singh@gmail.com</a>
+            </div>
+            <div className="flex items-center">
+              <i data-feather="github" className="mr-2 text-teal-500"></i>
+              <a href="https://github.com/SinGhRishaBBh" target="_blank" className="text-teal-500">GitHub</a>
+            </div>
+            <div className="flex items-center">
+              <i data-feather="linkedin" className="mr-2 text-teal-500"></i>
+              <a href="https://www.linkedin.com/in/rishabh-raj-767b13212/" target="_blank" className="text-teal-500">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+        <div data-aos="fade-left">
+          <form className="space-y-4">
+            <input type="text" placeholder="Your Name" className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"/>
+            <input type="email" placeholder="Your Email" className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"/>
+            <textarea placeholder="Your Message" rows="4" className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"></textarea>
+            <button type="submit" className="px-6 py-3 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-lg">Send Message</button>
+          </form>
+        </div>
+      </div>
+    );
+
+    const Footer = () => (
+      <footer className="bg-gray-100 dark:bg-gray-800 py-6 mt-12">
+        <p className="text-center text-gray-500 dark:text-gray-400">© {new Date().getFullYear()} Rishabh Raj. All rights reserved.</p>
+      </footer>
+    );
+
+    ReactDOM.render(<App/>, document.getElementById("root"));
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      AOS.init();
+      feather.replace();
+    });
+  </script>
+</body>
+</html>
