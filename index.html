@@ -1,308 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rishabh Raj | AI Portfolio</title>
-
-  <!-- Favicon links -->
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
-  <link rel="manifest" href="./site.webmanifest">
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://unpkg.com/feather-icons"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rishabh Raj • Portfolio (GitHub style)</title>
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .gradient-text {
-      @apply bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent;
+    :root{
+      --bg:#0d1117; --panel:#0f1720; --muted:#8b949e; --accent:#58a6ff; --card:#161b22;
+      --light-bg:#f6f8fa; --light-panel:#ffffff; --light-text:#24292f; --light-accent:#0969da;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:#c9d1d9;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Layout */
+    header{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:18px 28px; border-bottom:1px solid rgba(255,255,255,0.03);
+      background:linear-gradient(180deg, rgba(0,0,0,0.2), transparent);
+      position:sticky; top:0; z-index:30;
+    }
+    .brand { display:flex; gap:12px; align-items:center; }
+    .brand img { width:56px; height:56px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); object-fit:cover }
+    .brand .who { font-weight:700; font-size:18px; letter-spacing:0.1px }
+    .controls { display:flex; gap:12px; align-items:center }
+
+    .container { max-width:1100px; margin:28px auto; padding:0 20px; display:grid; grid-template-columns:320px 1fr; gap:28px; align-items:start; }
+
+    /* Sidebar (profile) */
+    .card { background:var(--panel); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
+    .profile { display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center }
+    .profile h2{ margin:0; font-size:20px }
+    .profile p{ margin:0; color:var(--muted); font-size:14px; line-height:1.35 }
+    .socials { display:flex; gap:8px; margin-top:6px }
+    .socials a{ color:var(--accent); text-decoration:none; font-weight:600; font-size:13px; }
+
+    /* Main */
+    .mainHeader { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px }
+    .mainHeader h3{ margin:0; font-size:18px }
+    .repo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px }
+
+    .repo {
+      background:var(--card);
+      border-radius:10px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform 160ms ease, box-shadow 160ms ease;
+    }
+    .repo:hover{ transform:translateY(-6px); box-shadow:0 10px 30px rgba(2,6,23,0.6) }
+
+    .repo h4{ margin:0 0 6px 0; font-size:15px }
+    .repo h4 a { color:var(--accent); text-decoration:none; font-weight:600 }
+    .repo p{ margin:0 0 8px 0; color:var(--muted); font-size:13px; min-height:38px }
+    .badges{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
+    .lang { background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:999px; font-size:12px; color:#dbeafe }
+    .meta { display:flex; gap:12px; margin-top:10px; color:var(--muted); align-items:center; font-size:13px }
+
+    /* Icons */
+    .icon { width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:6px; opacity:0.9 }
+
+    footer { text-align:center; color:var(--muted); padding:28px 0; grid-column:1/-1 }
+
+    /* Light theme overrides */
+    body.light{ background:var(--light-bg); color:var(--light-text) }
+    body.light .card{ background:var(--light-panel); border-color:rgba(2,6,23,0.03) }
+    body.light .repo { background:#fff; border-color:#e6edf3 }
+    body.light .repo h4 a{ color:var(--light-accent) }
+    body.light .repo p{ color:#485058 }
+    body.light .lang{ background:#f3f4f6; color:var(--light-text) }
+    body.light .mainHeader h3{ color:var(--light-text) }
+    body.light .brand img{ border-color:rgba(2,6,23,0.06) }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .container { grid-template-columns:1fr; }
+      header { padding:14px; }
+      .brand img { width:48px; height:48px }
     }
   </style>
 </head>
-<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-  <div id="root"></div>
+<body>
+  <header>
+    <div class="brand">
+      <img id="avatar" src="https://github.com/SinGhRishaBBh.png" alt="avatar">
+      <div>
+        <div class="who">Rishabh Raj</div>
+        <div style="font-size:13px; color:var(--muted)">AI Postgraduate • ML & AQI research</div>
+      </div>
+    </div>
 
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
+    <div class="controls">
+      <button id="theme-btn" title="Toggle theme" style="padding:8px;border-radius:8px;border:0;background:rgba(255,255,255,0.03);color:inherit;cursor:pointer">
+        🌙
+      </button>
+      <a id="github-link" href="https://github.com/SinGhRishaBBh" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none; font-weight:600">View on GitHub →</a>
+    </div>
+  </header>
 
-    // === Centralized Data ===
-    const siteData = {
-      hero: {
-        name: "Rishabh Raj",
-        tagline: "AI Postgraduate | Machine Learning & Data Analysis | AQI Prediction Research",
-        bio: "I am an AI postgraduate skilled in Python, machine learning, and data analysis with hands-on experience in LSTM and XGBoost for AQI prediction during my internship at CSIR-CRRI. I am proficient in React.js, MongoDB, and FastAPI, with a year of teaching experience in computer science. I'm committed to leveraging AI to address environmental challenges.",
-        photo: "./images/me.jpg", // Update this line
-        links: {
-          linkedin: "https://www.linkedin.com/in/rishabh-raj-767b13212/",
-          github: "https://github.com/SinGhRishaBBh",
-          email: "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox"
-        }
-      },
-      experience: [
-        {
-          role: "Research Intern",
-          company: "CSIR CRRI",
-          location: "New Delhi",
-          period: "Jan 2025 – Jun 2025",
-          details: [
-            "Conducted research on PM2.5 and PM10 impact on urban air quality using AI.",
-            "Built predictive models with LSTM and XGBoost for AQI forecasting.",
-            "Integrated IQAir and OpenWeatherMap APIs.",
-            "Deployed models with FastAPI backend + React.js frontend.",
-            "Contributed to research paper: \"Air Pollution, PM2.5 and AI Techniques to Measure It\"."
-          ]
-        },
-        {
-          role: "Computer Science Teacher",
-          company: "Vinayak Study Centre",
-          location: "Patna, Bihar",
-          period: "Jul 2022 – Jul 2023",
-          details: [
-            "Taught classes 6–12 computer science (Python, MS Office, Scratch).",
-            "Guided students on projects and coding basics."
-          ]
-        }
-      ],
-      education: [
-        { title: "M.Sc. Artificial Intelligence", place: "Central University of South Bihar", year: "2023–2025" },
-        { title: "BCA", place: "Arcade Business College", year: "2020–2023" }
-      ],
-      projects: [
-        { title: "AQI Prediction Dashboard", desc: "React.js + FastAPI + MongoDB with real-time visualization.", tech: ["React", "FastAPI", "MongoDB", "TensorFlow"] },
-        { title: "Environmental Data API Integration", desc: "Live AQI + weather data from IQAir & OpenWeatherMap.", tech: ["Python", "FastAPI", "Pandas", "NumPy"] },
-        { title: "Student Coding Tools", desc: "Python & Scratch-based learning aids.", tech: ["Python", "Scratch", "Pygame"] }
-      ],
-      skills: {
-        "AI & ML": ["Python", "TensorFlow", "Keras", "LSTM", "XGBoost", "Scikit-learn"],
-        "Data": ["Pandas", "NumPy", "Matplotlib", "Seaborn"],
-        "Web": ["React.js", "MongoDB", "FastAPI", "Firebase"],
-        "Others": ["SQL", "Jupyter", "MS Office"]
-      },
-      achievements: [
-        { title: "Research Publication", desc: "Contributed to environmental AI research publication." },
-        { title: "Real-time AQI Deployment", desc: "Developed deployed AQI models using real-time datasets." }
-      ]
-    };
+  <main class="container" role="main">
+    <!-- Sidebar -->
+    <aside class="card">
+      <div class="profile">
+        <img src="https://github.com/SinGhRishaBBh.png" alt="Rishabh" style="width:96px;height:96px;border-radius:999px;object-fit:cover">
+        <h2>Rishabh Raj</h2>
+        <p>I build data-driven apps and AI models — AQI prediction, dashboards, and full-stack tools. Open to collaboration & research work.</p>
+        <div class="socials">
+          <a href="https://github.com/SinGhRishaBBh" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/rishabh-raj-767b13212/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="mailto:rishabh079singh@gmail.com">Email</a>
+        </div>
+      </div>
 
-    // === Components ===
-    function App() {
-      const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
+      <hr style="margin:14px 0; border:0; height:1px; background:rgba(255,255,255,0.02)">
 
-      useEffect(() => {
-        AOS.init();
-        feather.replace();
-        document.documentElement.classList.toggle("dark", darkMode);
-      }, [darkMode]);
+      <div style="font-size:13px; color:var(--muted);">
+        <strong>Experience</strong>
+        <div style="margin-top:8px">
+          <div style="font-weight:600">Research Intern — CSIR CRRI</div>
+          <div style="font-size:12px;color:var(--muted)">Jan 2025 — Jun 2025</div>
+        </div>
+      </div>
+    </aside>
 
-      const toggleDarkMode = () => {
-        const newMode = !darkMode;
-        setDarkMode(newMode);
-        localStorage.setItem("theme", newMode ? "dark" : "light");
-      };
+    <!-- Main content -->
+    <section>
+      <div class="mainHeader">
+        <h3>Pinned Repositories</h3>
+        <div style="font-size:13px;color:var(--muted)">Auto-updated from GitHub</div>
+      </div>
 
-      return (
-        <>
-          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode}/>
-          <Hero data={siteData.hero}/>
-          <Section title="About"><About data={siteData.hero}/></Section>
-          <Section title="Experience"><Experience data={siteData.experience}/></Section>
-          <Section title="Education"><Education data={siteData.education}/></Section>
-          <Section title="Projects"><Projects data={siteData.projects}/></Section>
-          <Section title="Skills"><Skills data={siteData.skills}/></Section>
-          <Section title="Achievements"><Achievements data={siteData.achievements}/></Section>
-          <Section title="Contact"><Contact /></Section>
-          <Footer/>
-        </>
-      );
+      <div id="repo-grid" class="repo-grid">
+        <!-- repo cards injected here -->
+        <div style="grid-column:1/-1; color:var(--muted)">Loading repositories...</div>
+      </div>
+    </section>
+
+    <footer>© <span id="year"></span> Rishabh Raj · Built with HTML/CSS/JS</footer>
+  </main>
+
+  <script>
+    // --- Config ---
+    const GITHUB_USER = "SinGhRishaBBh";   // your GitHub username
+    const EXCLUDE_REPO = "SinGhRishaBBh";  // repo name to exclude (per your earlier ask)
+    const MAX_REPOS = 8;                   // how many to show
+    const repoGrid = document.getElementById("repo-grid");
+    const yearEl = document.getElementById("year");
+    yearEl.textContent = new Date().getFullYear();
+
+    // Theme handling
+    const themeBtn = document.getElementById("theme-btn");
+    function applyTheme(t) {
+      if(t === "light") { document.body.classList.add("light"); themeBtn.textContent = "🌙"; }
+      else { document.body.classList.remove("light"); themeBtn.textContent = "☀️"; }
+      localStorage.setItem("theme", t);
+    }
+    // init theme
+    (function(){
+      const saved = localStorage.getItem("theme") || (window.matchMedia && window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
+      applyTheme(saved);
+    })();
+    themeBtn.addEventListener("click", () => {
+      applyTheme(document.body.classList.contains("light") ? "dark" : "light");
+    });
+
+    // Small SVG icons
+    const starSVG = `<svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 12.026l3.472 2.25-.93-3.763L13.8 7.7l-3.85-.336L8 3.5 6.05 7.363 2.2 7.7l2.258 2.813-.93 3.763L8 12.026z"></path></svg>`;
+    const forkSVG = `<svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.25A1.75 1.75 0 1 0 5 6.75c.965 0 1.75-.784 1.75-1.75V6h1.5v1.5c0 .966.784 1.75 1.75 1.75A1.75 1.75 0 1 0 12 6.25V3.25A1.75 1.75 0 1 0 12 0.75c-.965 0-1.75.784-1.75 1.75v1.5H8.75v-1.5C8.75.784 7.966 0 7 0A1.75 1.75 0 1 0 5 3.25z"></path></svg>`;
+
+    // Helper: create repo card element
+    function createRepoCard(repo, languages, showStars=true) {
+      const repoEl = document.createElement("div");
+      repoEl.className = "repo";
+
+      // top languages (take up to 3 keys from languages object sorted by bytes)
+      const langs = languages ? Object.entries(languages).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x => x[0]) : (repo.language ? [repo.language] : []);
+
+      repoEl.innerHTML = `
+        <h4><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${escapeHtml(repo.name)}</a></h4>
+        <p>${escapeHtml(repo.description || "No description provided.")}</p>
+        <div class="badges">
+          ${langs.map(l => `<span class="lang">${escapeHtml(l)}</span>`).join("")}
+        </div>
+        <div class="meta">
+          ${showStars ? `<span>${starSVG}${numberWithCommas(repo.stargazers_count || 0)}</span>` : ""}
+          <span>${forkSVG}${numberWithCommas(repo.forks_count || 0)}</span>
+          <span style="margin-left:auto;color:var(--muted);font-size:12px">Updated ${new Date(repo.updated_at).toLocaleDateString()}</span>
+        </div>
+      `;
+      return repoEl;
     }
 
-    const Navbar = ({darkMode, toggleDarkMode}) => (
-      <nav className="fixed w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm">
-        <div className="max-w-6xl mx-auto flex justify-between items-center h-16 px-4">
-          <span className="text-xl font-bold gradient-text">Rishabh Raj</span>
-          <div className="flex items-center space-x-6">
-            {["About","Experience","Projects","Contact"].map((item,i)=>(
-              <a key={i} href={`#${item.toLowerCase()}`} className="hidden md:block text-gray-700 dark:text-gray-300 hover:text-teal-500">{item}</a>
-            ))}
-            <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-              <i data-feather={darkMode ? "sun" : "moon"}></i>
-            </button>
-          </div>
-        </div>
-      </nav>
-    );
+    // Escape simple HTML
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function numberWithCommas(x){ return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
 
-    const Hero = ({data}) => (
-      <section className="pt-24 pb-16 md:pt-32 max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
-        <div data-aos="fade-right">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Hi, I'm <span className="gradient-text">{data.name}</span></h1>
-          <h2 className="text-xl md:text-2xl mb-6 text-gray-600 dark:text-gray-300">{data.tagline}</h2>
-          <p className="mb-6 text-gray-600 dark:text-gray-300">{data.bio}</p>
-          <div className="flex gap-4">
-            <a href="#" className="px-6 py-3 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-lg">Download Resume</a>
-            <a href="#contact" className="px-6 py-3 border border-teal-500 text-teal-500 rounded-lg">Contact Me</a>
-          </div>
-          <div className="flex mt-6 space-x-4">
-            {Object.entries(data.links).map(([key,link],i)=>(
-              <a key={i} href={link} target="_blank" className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                <i data-feather={
-                  key === 'linkedin' ? 'linkedin' : 
-                  key === 'github' ? 'github' : 
-                  key === 'email' ? 'mail' : key
-                }></i>
-              </a>
-            ))}
-          </div>
-        </div>
-        <div data-aos="fade-left" className="flex justify-center">
-          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden">
-            <img 
-              src={data.photo} 
-              alt={data.name} 
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
-    );
+    // Fetch repos and languages
+    async function fetchReposAndRender() {
+      repoGrid.innerHTML = `<div style="grid-column:1/-1;color:var(--muted)">Loading repositories…</div>`;
+      try {
+        const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`);
+        if(!res.ok) throw new Error(`GitHub API error ${res.status}`);
+        const list = await res.json();
 
-    const About = ({data}) => (
-      <div className="grid md:grid-cols-2 gap-8 items-center">
-        <div data-aos="fade-right">
-          <div className="w-64 h-64 mx-auto rounded-full border-4 border-white dark:border-gray-800 overflow-hidden">
-            <img 
-              src={data.photo} 
-              alt={data.name} 
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-        <div data-aos="fade-left">
-          <p className="text-gray-600 dark:text-gray-300">{data.bio}</p>
-        </div>
-      </div>
-    );
+        // Filter out excluded repo and optionally forks if you prefer
+        const filtered = list.filter(r => r.name !== EXCLUDE_REPO /* && !r.fork */);
 
-    const Section = ({title, children}) => (
-      <section id={title.toLowerCase()} className="py-16 px-4 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 gradient-text">{title}</h2>
-        {children}
-      </section>
-    );
+        // Take first MAX_REPOS most recently updated
+        const selected = filtered.slice(0, MAX_REPOS);
 
-    const Experience = ({data}) => (
-      <div className="relative">
-        {/* Vertical line */}
-        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-teal-500 transform md:translate-x-[-1px]"></div>
-        {data.map((job,i)=>(
-          <div key={i} data-aos="fade-up" className={`relative mb-12 pl-10 md:pl-0 ${i % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:text-right'}`}>
-            <div className="absolute left-0 md:left-1/2 top-0 w-8 h-8 rounded-full bg-teal-500 border-4 border-white dark:border-gray-900 transform md:translate-x-[-50%]"></div>
-            <div className={`bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md ${i % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}>
-              <h3 className="text-xl font-semibold">{job.role} – {job.company}</h3>
-              <p className="text-sm text-teal-500 mb-2">{job.location} | {job.period}</p>
-              <ul className="space-y-1">{job.details.map((d,j)=><li key={j}>• {d}</li>)}</ul>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+        // For each repo, fetch its languages (languages_url) concurrently
+        const langPromises = selected.map(r => fetch(r.languages_url).then(rs => rs.ok ? rs.json() : {}).catch(()=>({})));
+        const langsArr = await Promise.all(langPromises);
 
-    const Education = ({data}) => (
-      <div className="grid md:grid-cols-2 gap-6">
-        {data.map((ed,i)=>(
-          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-teal-500">
-            <h3 className="font-semibold">{ed.title}</h3>
-            <p className="text-teal-500">{ed.place} ({ed.year})</p>
-          </div>
-        ))}
-      </div>
-    );
+        // Clear grid and append cards
+        repoGrid.innerHTML = "";
+        selected.forEach((repo, idx) => {
+          const langs = langsArr[idx] || {};
+          const card = createRepoCard(repo, langs);
+          repoGrid.appendChild(card);
+        });
 
-    const Projects = ({data}) => (
-      <div className="grid md:grid-cols-3 gap-6">
-        {data.map((p,i)=>(
-          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-            <h3 className="font-semibold mb-2">{p.title}</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">{p.desc}</p>
-            <div className="flex flex-wrap gap-2">{p.tech.map((t,j)=><span key={j} className="px-2 py-1 text-xs bg-teal-100 dark:bg-teal-900 rounded">{t}</span>)}</div>
-          </div>
-        ))}
-      </div>
-    );
+        // If no repos (edge-case), show helpful note
+        if(selected.length === 0) {
+          repoGrid.innerHTML = `<div style="grid-column:1/-1;color:var(--muted)">No repos found to display (they may be excluded or private).</div>`;
+        }
+      } catch (err) {
+        console.error(err);
+        repoGrid.innerHTML = `<div style="grid-column:1/-1;color:var(--muted)">Failed to load repositories. GitHub rate limit or network issue.</div>`;
+      }
+    }
 
-    const Skills = ({data}) => (
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Object.entries(data).map(([cat,skills],i)=>(
-          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 className="font-semibold mb-4">{cat}</h3>
-            <div className="flex flex-wrap gap-2">{skills.map((s,j)=><span key={j} className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 rounded">{s}</span>)}</div>
-          </div>
-        ))}
-      </div>
-    );
-
-    const Achievements = ({data}) => (
-      <div className="grid md:grid-cols-2 gap-6">
-        {data.map((a,i)=>(
-          <div key={i} data-aos="fade-up" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 className="font-semibold">{a.title}</h3>
-            <p className="text-gray-600 dark:text-gray-300">{a.desc}</p>
-          </div>
-        ))}
-      </div>
-    );
-
-    const Contact = () => (
-      <div className="grid md:grid-cols-2 gap-8">
-        <div data-aos="fade-right">
-          <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">Feel free to reach out for collaborations or just a friendly hello!</p>
-          <div className="space-y-4">
-            <div className="flex items-center">
-              <i data-feather="mail" className="mr-2 text-teal-500"></i>
-              <a href="mailto:rishabh079singh@gmail.com" className="text-teal-500">rishabh079singh@gmail.com</a>
-            </div>
-            <div className="flex items-center">
-              <i data-feather="github" className="mr-2 text-teal-500"></i>
-              <a href="https://github.com/SinGhRishaBBh" target="_blank" className="text-teal-500">GitHub</a>
-            </div>
-            <div className="flex items-center">
-              <i data-feather="linkedin" className="mr-2 text-teal-500"></i>
-              <a href="https://www.linkedin.com/in/rishabh-raj-767b13212/" target="_blank" className="text-teal-500">LinkedIn</a>
-            </div>
-          </div>
-        </div>
-        <div data-aos="fade-left">
-          <form className="space-y-4">
-            <input type="text" placeholder="Your Name" className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"/>
-            <input type="email" placeholder="Your Email" className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"/>
-            <textarea placeholder="Your Message" rows="4" className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"></textarea>
-            <button type="submit" className="px-6 py-3 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-lg">Send Message</button>
-          </form>
-        </div>
-      </div>
-    );
-
-    const Footer = () => (
-      <footer className="bg-gray-100 dark:bg-gray-800 py-6 mt-12">
-        <p className="text-center text-gray-500 dark:text-gray-400">© {new Date().getFullYear()} Rishabh Raj. All rights reserved.</p>
-      </footer>
-    );
-
-    ReactDOM.render(<App/>, document.getElementById("root"));
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      AOS.init();
-      feather.replace();
-    });
+    // Initial load
+    fetchReposAndRender();
   </script>
 </body>
 </html>
