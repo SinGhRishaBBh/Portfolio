@@ -1,243 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rishabh Raj • Portfolio (GitHub style)</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Rishabh Raj • GitHub-style Portfolio</title>
   <style>
     :root{
       --bg:#0d1117; --panel:#0f1720; --muted:#8b949e; --accent:#58a6ff; --card:#161b22;
       --light-bg:#f6f8fa; --light-panel:#ffffff; --light-text:#24292f; --light-accent:#0969da;
+      --glass: rgba(255,255,255,0.03);
     }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background:var(--bg);
-      color:#c9d1d9;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg); color:#c9d1d9; -webkit-font-smoothing:antialiased;
     }
-
-    /* Layout */
-    header{
-      display:flex; justify-content:space-between; align-items:center;
-      padding:18px 28px; border-bottom:1px solid rgba(255,255,255,0.03);
-      background:linear-gradient(180deg, rgba(0,0,0,0.2), transparent);
-      position:sticky; top:0; z-index:30;
+    header{ display:flex; justify-content:space-between; align-items:center;
+      padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.03); background:linear-gradient(180deg, rgba(0,0,0,0.15), transparent);
+      position:sticky; top:0; z-index:50;
     }
-    .brand { display:flex; gap:12px; align-items:center; }
-    .brand img { width:56px; height:56px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); object-fit:cover }
-    .brand .who { font-weight:700; font-size:18px; letter-spacing:0.1px }
-    .controls { display:flex; gap:12px; align-items:center }
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand img{width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,0.04);object-fit:cover}
+    .who{font-weight:700;font-size:17px}
+    .sub{font-size:12px;color:var(--muted)}
 
-    .container { max-width:1100px; margin:28px auto; padding:0 20px; display:grid; grid-template-columns:320px 1fr; gap:28px; align-items:start; }
+    .actions{display:flex;gap:10px;align-items:center}
+    button.btn{padding:8px 10px;border-radius:8px;border:0;background:var(--glass);color:inherit;cursor:pointer}
 
-    /* Sidebar (profile) */
-    .card { background:var(--panel); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
-    .profile { display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center }
-    .profile h2{ margin:0; font-size:20px }
-    .profile p{ margin:0; color:var(--muted); font-size:14px; line-height:1.35 }
-    .socials { display:flex; gap:8px; margin-top:6px }
-    .socials a{ color:var(--accent); text-decoration:none; font-weight:600; font-size:13px; }
+    .container{max-width:1100px;margin:20px auto;padding:0 16px;display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+    @media (max-width:920px){ .container{grid-template-columns:1fr} header{padding:12px} .brand img{width:44px;height:44px} }
 
-    /* Main */
-    .mainHeader { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px }
-    .mainHeader h3{ margin:0; font-size:18px }
-    .repo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px }
+    .card{background:var(--panel);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .profile{text-align:center}
+    .profile img{width:96px;height:96px;border-radius:999px;object-fit:cover;border:2px solid rgba(255,255,255,0.04)}
+    .profile h2{margin:10px 0 4px;font-size:18px}
+    .profile p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}
+    .socials{display:flex;gap:8px;justify-content:center;margin-top:10px}
+    .socials a{color:var(--accent);text-decoration:none;font-weight:600;font-size:13px}
 
-    .repo {
-      background:var(--card);
-      border-radius:10px;
-      padding:14px;
-      border:1px solid rgba(255,255,255,0.03);
-      transition:transform 160ms ease, box-shadow 160ms ease;
-    }
-    .repo:hover{ transform:translateY(-6px); box-shadow:0 10px 30px rgba(2,6,23,0.6) }
+    .sectionTitle{display:flex;align-items:center;justify-content:space-between}
+    .sectionTitle h3{margin:0;font-size:18px}
+    .repo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}
+    .repo{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);transition:transform .15s,box-shadow .15s}
+    .repo:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    .repo h4{margin:0 0 6px 0;font-size:15px}
+    .repo h4 a{color:var(--accent);text-decoration:none;font-weight:600}
+    .repo p{margin:0 0 8px;color:var(--muted);font-size:13px;min-height:42px}
+    .badges{display:flex;flex-wrap:wrap;gap:8px}
+    .lang{background:rgba(255,255,255,0.04);padding:5px 8px;border-radius:999px;font-size:12px;color:#dbeafe}
+    .topic{background:rgba(255,255,255,0.02);padding:4px 7px;border-radius:8px;font-size:12px;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+    .meta{display:flex;gap:12px;margin-top:10px;color:var(--muted);align-items:center;font-size:13px}
+    .pin{margin-left:auto;cursor:pointer;background:transparent;border:0;color:var(--muted)}
+    .pinned{color:#ffd166}
 
-    .repo h4{ margin:0 0 6px 0; font-size:15px }
-    .repo h4 a { color:var(--accent); text-decoration:none; font-weight:600 }
-    .repo p{ margin:0 0 8px 0; color:var(--muted); font-size:13px; min-height:38px }
-    .badges{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
-    .lang { background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:999px; font-size:12px; color:#dbeafe }
-    .meta { display:flex; gap:12px; margin-top:10px; color:var(--muted); align-items:center; font-size:13px }
+    footer.card-dynamic { grid-column:1/-1; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:18px; display:grid; grid-template-columns:1fr 320px; gap:18px; align-items:start; border:1px solid rgba(255,255,255,0.02); margin-top:12px; }
+    @media (max-width:920px){ footer.card-dynamic { grid-template-columns:1fr } }
 
-    /* Icons */
-    .icon { width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:6px; opacity:0.9 }
+    .stats-panel{cursor:pointer;border:1px solid rgba(255,255,255,0.03);border-radius:10px;padding:12px;background:var(--card);transition:all 0.2s}
+    .stats-panel:hover{background:rgba(88,166,255,0.05)}
+    .stats-content{display:none;margin-top:10px;gap:12px;flex-wrap:wrap}
+    .stat { background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:10px; min-width:120px; text-align:center }
+    .stat h4{ margin:0; font-size:18px }
+    .stat p{ margin:0; color:var(--muted); font-size:13px }
 
-    footer { text-align:center; color:var(--muted); padding:28px 0; grid-column:1/-1 }
+    .carousel{overflow:hidden;position:relative;width:100%;height:80px;margin-top:12px}
+    .carousel-track{display:flex;transition:transform 0.5s ease}
+    .carousel-item{min-width:100%;padding:10px;background:var(--card);border-radius:10px;text-align:center;color:var(--muted);font-size:14px}
 
-    /* Light theme overrides */
-    body.light{ background:var(--light-bg); color:var(--light-text) }
-    body.light .card{ background:var(--light-panel); border-color:rgba(2,6,23,0.03) }
-    body.light .repo { background:#fff; border-color:#e6edf3 }
-    body.light .repo h4 a{ color:var(--light-accent) }
-    body.light .repo p{ color:#485058 }
-    body.light .lang{ background:#f3f4f6; color:var(--light-text) }
-    body.light .mainHeader h3{ color:var(--light-text) }
-    body.light .brand img{ border-color:rgba(2,6,23,0.06) }
+    input[type=number]{width:86px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    label{font-size:13px;color:var(--muted)}
 
-    /* Responsive */
-    @media (max-width:980px){
-      .container { grid-template-columns:1fr; }
-      header { padding:14px; }
-      .brand img { width:48px; height:48px }
-    }
+    /* light theme */
+    body.light{background:var(--light-bg);color:var(--light-text)}
+    body.light .card{background:var(--light-panel);border-color:rgba(2,6,23,0.03)}
+    body.light .repo{background:#fff;border-color:#e6edf3}
+    body.light .repo h4 a{color:var(--light-accent)}
+    body.light .repo p{color:#475057}
+    body.light .lang{background:#f3f4f6;color:var(--light-text)}
+    body.light .topic{background:#f8fafc;color:var(--light-text);border:1px solid #eef2f6}
+    body.light input[type=number]{background:#fff;color:var(--light-text)}
+    body.light button.btn{background:rgba(2,6,23,0.04)}
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <img id="avatar" src="https://github.com/SinGhRishaBBh.png" alt="avatar">
+      <img src="https://github.com/SinGhRishaBBh.png" alt="avatar">
       <div>
         <div class="who">Rishabh Raj</div>
-        <div style="font-size:13px; color:var(--muted)">AI Postgraduate • ML & AQI research</div>
+        <div class="sub">AI Postgraduate • ML & AQI research</div>
       </div>
     </div>
-
-    <div class="controls">
-      <button id="theme-btn" title="Toggle theme" style="padding:8px;border-radius:8px;border:0;background:rgba(255,255,255,0.03);color:inherit;cursor:pointer">
-        🌙
-      </button>
-      <a id="github-link" href="https://github.com/SinGhRishaBBh" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none; font-weight:600">View on GitHub →</a>
+    <div class="actions">
+      <button id="theme-btn" class="btn">🌙</button>
+      <a href="https://github.com/SinGhRishaBBh" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none">GitHub →</a>
     </div>
   </header>
 
-  <main class="container" role="main">
-    <!-- Sidebar -->
+  <main class="container">
     <aside class="card">
       <div class="profile">
-        <img src="https://github.com/SinGhRishaBBh.png" alt="Rishabh" style="width:96px;height:96px;border-radius:999px;object-fit:cover">
+        <img src="https://github.com/SinGhRishaBBh.png" alt="Rishabh">
         <h2>Rishabh Raj</h2>
-        <p>I build data-driven apps and AI models — AQI prediction, dashboards, and full-stack tools. Open to collaboration & research work.</p>
-        <div class="socials">
-          <a href="https://github.com/SinGhRishaBBh" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/rishabh-raj-767b13212/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="mailto:rishabh079singh@gmail.com">Email</a>
-        </div>
-      </div>
-
-      <hr style="margin:14px 0; border:0; height:1px; background:rgba(255,255,255,0.02)">
-
-      <div style="font-size:13px; color:var(--muted);">
-        <strong>Experience</strong>
-        <div style="margin-top:8px">
-          <div style="font-weight:600">Research Intern — CSIR CRRI</div>
-          <div style="font-size:12px;color:var(--muted)">Jan 2025 — Jun 2025</div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main content -->
-    <section>
-      <div class="mainHeader">
-        <h3>Pinned Repositories</h3>
-        <div style="font-size:13px;color:var(--muted)">Auto-updated from GitHub</div>
-      </div>
-
-      <div id="repo-grid" class="repo-grid">
-        <!-- repo cards injected here -->
-        <div style="grid-column:1/-1; color:var(--muted)">Loading repositories...</div>
-      </div>
-    </section>
-
-    <footer>© <span id="year"></span> Rishabh Raj · Built with HTML/CSS/JS</footer>
-  </main>
-
-  <script>
-    // --- Config ---
-    const GITHUB_USER = "SinGhRishaBBh";   // your GitHub username
-    const EXCLUDE_REPO = "SinGhRishaBBh";  // repo name to exclude (per your earlier ask)
-    const MAX_REPOS = 8;                   // how many to show
-    const repoGrid = document.getElementById("repo-grid");
-    const yearEl = document.getElementById("year");
-    yearEl.textContent = new Date().getFullYear();
-
-    // Theme handling
-    const themeBtn = document.getElementById("theme-btn");
-    function applyTheme(t) {
-      if(t === "light") { document.body.classList.add("light"); themeBtn.textContent = "🌙"; }
-      else { document.body.classList.remove("light"); themeBtn.textContent = "☀️"; }
-      localStorage.setItem("theme", t);
-    }
-    // init theme
-    (function(){
-      const saved = localStorage.getItem("theme") || (window.matchMedia && window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
-      applyTheme(saved);
-    })();
-    themeBtn.addEventListener("click", () => {
-      applyTheme(document.body.classList.contains("light") ? "dark" : "light");
-    });
-
-    // Small SVG icons
-    const starSVG = `<svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 12.026l3.472 2.25-.93-3.763L13.8 7.7l-3.85-.336L8 3.5 6.05 7.363 2.2 7.7l2.258 2.813-.93 3.763L8 12.026z"></path></svg>`;
-    const forkSVG = `<svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.25A1.75 1.75 0 1 0 5 6.75c.965 0 1.75-.784 1.75-1.75V6h1.5v1.5c0 .966.784 1.75 1.75 1.75A1.75 1.75 0 1 0 12 6.25V3.25A1.75 1.75 0 1 0 12 0.75c-.965 0-1.75.784-1.75 1.75v1.5H8.75v-1.5C8.75.784 7.966 0 7 0A1.75 1.75 0 1 0 5 3.25z"></path></svg>`;
-
-    // Helper: create repo card element
-    function createRepoCard(repo, languages, showStars=true) {
-      const repoEl = document.createElement("div");
-      repoEl.className = "repo";
-
-      // top languages (take up to 3 keys from languages object sorted by bytes)
-      const langs = languages ? Object.entries(languages).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x => x[0]) : (repo.language ? [repo.language] : []);
-
-      repoEl.innerHTML = `
-        <h4><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${escapeHtml(repo.name)}</a></h4>
-        <p>${escapeHtml(repo.description || "No description provided.")}</p>
-        <div class="badges">
-          ${langs.map(l => `<span class="lang">${escapeHtml(l)}</span>`).join("")}
-        </div>
-        <div class="meta">
-          ${showStars ? `<span>${starSVG}${numberWithCommas(repo.stargazers_count || 0)}</span>` : ""}
-          <span>${forkSVG}${numberWithCommas(repo.forks_count || 0)}</span>
-          <span style="margin-left:auto;color:var(--muted);font-size:12px">Updated ${new Date(repo.updated_at).toLocaleDateString()}</span>
-        </div>
-      `;
-      return repoEl;
-    }
-
-    // Escape simple HTML
-    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-    function numberWithCommas(x){ return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-
-    // Fetch repos and languages
-    async function fetchReposAndRender() {
-      repoGrid.innerHTML = `<div style="grid-column:1/-1;color:var(--muted)">Loading repositories…</div>`;
-      try {
-        const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`);
-        if(!res.ok) throw new Error(`GitHub API error ${res.status}`);
-        const list = await res.json();
-
-        // Filter out excluded repo and optionally forks if you prefer
-        const filtered = list.filter(r => r.name !== EXCLUDE_REPO /* && !r.fork */);
-
-        // Take first MAX_REPOS most recently updated
-        const selected = filtered.slice(0, MAX_REPOS);
-
-        // For each repo, fetch its languages (languages_url) concurrently
-        const langPromises = selected.map(r => fetch(r.languages_url).then(rs => rs.ok ? rs.json() : {}).catch(()=>({})));
-        const langsArr = await Promise.all(langPromises);
-
-        // Clear grid and append cards
-        repoGrid.innerHTML = "";
-        selected.forEach((repo, idx) => {
-          const langs = langsArr[idx] || {};
-          const card = createRepoCard(repo, langs);
-          repoGrid.appendChild(card);
-        });
-
-        // If no repos (edge-case), show helpful note
-        if(selected.length === 0) {
-          repoGrid.innerHTML = `<div style="grid-column:1/-1;color:var(--muted)">No repos found to display (they may be excluded or private).</div>`;
-        }
-      } catch (err) {
-        console.error(err);
-        repoGrid.innerHTML = `<div style="grid-column:1/-1;color:var(--muted)">Failed to load repositories. GitHub rate limit or network issue.</div>`;
-      }
-    }
-
-    // Initial load
-    fetchReposAndRender();
-  </script>
-</body>
-</html>
+        <p>I
